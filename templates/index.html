@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Savings Sanctuary</title>
+{% endblock %}
+
+{% block body %}
+<div class="saving-form">
+    <form action="/" method="POST">
+        <label for="dateSaved">Date</label> <br>
+        <input name="dateSaved" type="date"> <br>
+        <div class="amount-field-container">
+            <div class="amount-field">
+                <label for="bfSaved">Bf Amount</label> 
+                <input type="text" name="bfSaved"> 
+            </div>
+            <div class="amount-field">
+                <label for="gfSaved">GF Amount</label> 
+                <input type="text" name="gfSaved"> 
+            </div>
+        </div>
+
+
+
+        <input type="submit" value="Add Today" class="submitBtn"> <br>
+    </form>
+</div>
+
+
+<div class="savings-table">
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>BF Saved</th>
+            <th>GF Saved</th>
+            <th>Total Saved</th>
+            <th>Daily Target</th>
+            <th>Surplus/Deficit</th>
+            <th>Running Total</th>
+        </tr>
+        {% for item in savings %}
+        <tr>
+            <td>{{ item.date_saved }}</td>
+            <td>{{ item.amount_bf_saved }}</td>
+            <td>{{ item.amount_gf_saved }}</td>
+            <td>{{ item.amount_bf_saved + item.amount_gf_saved }}</td>
+            <td>92000</td>
+            <td>{{ (item.amount_bf_saved + item.amount_gf_saved) - 92000 }}</td>
+            <td>{{ item.running_total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        background-color: #FBFAF1;
+
+    }
+
+    .saving-form {
+        text-align: center;
+        background-color: #FFFFFF;
+        border: 1px solid #F4F4EB;
+        padding: 22px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+        min-width: 400px;
+        filter: drop-shadow(0px 2px 4px #0000001b);
+    }
+
+    /* form label {
+        margin-bottom: 8px;
+    } */
+
+
+    .amount-field-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 16px 0 32px 0;
+    }
+
+    .amount-field input {
+        width: 100%;
+    }
+
+    .amount-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+
+    table {
+        border: 1px solid black;
+        margin: 10px 0;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        /* margin: 10px 0; */
+        margin: 0;
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    .submitBtn {
+        width: 100%;
+        background-color: #3D6751;
+        padding: 7px 0;
+        border: none;
+        border-radius: 8px;
+        color: #FFFFFF;
+    }
+</style>
+{% endblock %}
