@@ -24,6 +24,10 @@ def home():
         bf_value = request.form.get("bfSaved")
         gf_value = request.form.get("gfSaved")
 
+        # validate if its a number
+        if not bf_value.isdigit() or not gf_value.isdigit():
+            return "Please enter numbers only!", 400
+
         # convert to datetime from string
         saved_date = datetime.strptime(date_string, "%Y-%m-%d")
 
