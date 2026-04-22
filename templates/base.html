@@ -12,7 +12,8 @@
 </head>
 <body>
     <nav>
-        <div>
+        <div class="header">
+            <img class="logo" src="{{ url_for('static', filename='img/12.svg') }}" alt="">
             <h1>Savings Sanctuary</h1>
         </div>
         <!-- <div>
@@ -23,3 +24,16 @@
     {% block body %}{% endblock %}
 </body>
 </html>
+
+<style>
+    .header {
+        display: flex;
+        /* justify-content: space-between; */
+        gap: 15px;
+        align-items: center;
+    }
+    .logo {
+        width: 26px;
+        height: 43.55px;
+    }
+</style>
