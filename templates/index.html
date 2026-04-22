@@ -57,22 +57,22 @@
 </div> -->
 
 <div class="logs-container">
-    <h2>
-        Recent Logs
-    </h2>
-    <div class="log-row">
+    <h2>Recent Logs</h2>
+    
+    <div class="log-header-row">
         <div class="log-header-column">Date</div>
-        <div class="log-header-column">BF Amount</div>
-        <div class="log-header-column">GF Amount</div>
-        <div class="log-header-column">Total Saved</div>
-        <div class="log-header-column">Surplus/Deficit</div>
+        <div class="log-header-column">BF Saved</div>
+        <div class="log-header-column">GF Saved</div>
+        <div class="log-header-column">Total</div>
+        <div class="log-header-column">Surplus</div>
     </div>
+
     {% for item in savings %}
-    <div class="log-row">
-        <div class="log-column">{{ item.date_saved }}</div>
-        <div class="log-column">{{ item.amount_bf_saved }}</div>
-        <div class="log-column">{{ item.amount_gf_saved }}</div>
-        <div class="log-column">{{ item.amount_bf_saved + item.amount_gf_saved }}</div>
+    <div class="log-row-card">
+        <div class="log-column">{{ item.date_saved.strftime('%b %d, %Y') }}</div>
+        <div class="log-column">Rp {{ item.amount_bf_saved }}</div>
+        <div class="log-column">Rp {{ item.amount_gf_saved }}</div>
+        <div class="log-column"><strong>Rp {{ item.amount_bf_saved + item.amount_gf_saved }}</strong></div>
         <div class="log-column">{{ (item.amount_bf_saved + item.amount_gf_saved) - 92000 }}</div>
     </div>
     {% endfor %}
@@ -168,36 +168,51 @@
         font-family: "Plus Jakarta Sans", sans-serif;
     }
 
-    /* Log Table */
-    .logs-container {
-        display: flex;
-        flex-direction: column;
-        width: 70%;
-        background-color: #ECECE2;
-        padding: 0 32px;
-        border-radius: 15px;
-    }
+/* Log Table Container */
+.logs-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 900px; /* Gives it room to breathe */
+    background-color: #ECECE2;
+    padding: 32px;
+    border-radius: 20px;
+    gap: 12px; /* Space between the cards */
+}
 
-    .logs-container h2 {
-        font-size: 20px;
-        margin-bottom: 1rem;
-    }
+.logs-container h2 {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
 
-    .log-row {
-        display: flex;
-        /* gap: 7rem; */
-    }
-    .log-header-column {
-        width: 20%;
-        margin-bottom: 20px;
-        font-weight: 600;
-    }
-    .log-column {
-        width: 20%;
-        margin-bottom: 20px;
-        padding: 22px 24px;
-        background-color: #FFFFFF;
-        border-radius: 8px;
-    }
+.log-header-column, .log-column {
+    flex-basis: 20%;
+    text-align: left;
+}
+
+.log-header-row {
+    display: flex;
+    padding: 0 24px; 
+    margin-bottom: 8px;
+    color: #6b6b5f; 
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.log-row-card {
+    display: flex;
+    align-items: center;
+    background-color: #FFFFFF;
+    padding: 18px 24px;
+    border-radius: 12px;
+    filter: drop-shadow(0px 2px 4px #00000008);
+    transition: transform 0.2s;
+}
+
+.log-row-card:hover {
+    transform: translateY(-2px);
+}   
 </style>
 {% endblock %}
