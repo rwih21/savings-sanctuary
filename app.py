@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from datetime import datetime
 
 app = Flask(__name__)
@@ -41,7 +42,12 @@ def home():
 
     else:
         all_savings = MoneySave.query.order_by(MoneySave.date_saved.desc()).all()
-        return render_template("index.html", savings = all_savings)
+        
+        total_bf = db.session.query(func.sum(MoneySave.amount_bf_saved)).scalar() or 0
+        total_gf = db.session.query(func.sum(MoneySave.amount_gf_saved)).scalar() or 0
+        grand_total = total_bf + total_gf
+
+        return render_template("index.html", savings = all_savings, grand_total=grand_total)
 
 if __name__ == "__main__":
     app.run(debug=True)

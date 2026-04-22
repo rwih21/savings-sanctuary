@@ -5,22 +5,29 @@
 {% endblock %}
 
 {% block body %}
-<div class="daily-target">
-    <h2>Daily Target</h2>
-    <h2>92000</h2>
+<div class="header-container">
+    <div class="daily-target">
+        <h2>DAILY TARGET</h2>
+        <div class="money">Rp 92000</div>
+    </div>
+    <div class="running-total">
+        <h2>RUNNING TOTAL</h2>
+        <div class="money">Rp {{ grand_total }}</div>
+    </div>
 </div>
+
 <div class="saving-form">
     <form action="/" method="POST">
         <label for="dateSaved">Date</label> <br>
-        <input name="dateSaved" type="date"> <br>
+        <input name="dateSaved" type="date" required> <br>
         <div class="amount-field-container">
             <div class="amount-field">
                 <label for="bfSaved">BF Amount</label>
-                <input type="text" name="bfSaved">
+                <input type="text" name="bfSaved" required min="10000" placeholder="10000">
             </div>
             <div class="amount-field">
                 <label for="gfSaved">GF Amount</label>
-                <input type="text" name="gfSaved">
+                <input type="text" name="gfSaved" required min="10000" placeholder="10000">
             </div>
         </div>
 
@@ -29,7 +36,6 @@
         <input type="submit" value="Add Entry" class="submitBtn"> <br>
     </form>
 </div>
-
 
 <!-- <div class="savings-table">
     <table>
@@ -58,7 +64,7 @@
 
 <div class="logs-container">
     <h2>Recent Logs</h2>
-    
+
     <div class="log-header-row">
         <div class="log-header-column">Date</div>
         <div class="log-header-column">BF Saved</div>
@@ -89,14 +95,26 @@
 
     }
 
-    .daily-target {
+    .header-container {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 400px;
+        /* gap: 20px; */
+    }
+
+    .daily-target,
+    .running-total {
         display: flex;
         flex-direction: column;
         background-color: white;
+        /* justify-content: space-around; */
         text-align: center;
-        width: 90%;
+        width: 100%;
         gap: 10px;
-        max-width: 400px;
+        /* max-width: 400px; */
         border: 1px solid #F4F4EB;
         padding: 10px 22px;
         border-radius: 15px;
@@ -104,8 +122,23 @@
         filter: drop-shadow(0px 2px 4px #0000001b);
     }
 
-    .daily-target h2 {
+    /* .daily-target, .running-total {
+        display: flex;
+        flex-direction: column;
+    } */
+
+    .daily-target h2,
+    .running-total h2 {
         margin: 0;
+        font-weight: 500;
+        font-size: 18px;
+        color: #484843;
+    }
+
+    .money {
+        color: #04563A;
+        font-size: 26px;
+        font-weight: 500;
     }
 
     .saving-form {
@@ -168,51 +201,54 @@
         font-family: "Plus Jakarta Sans", sans-serif;
     }
 
-/* Log Table Container */
-.logs-container {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    max-width: 900px; /* Gives it room to breathe */
-    background-color: #ECECE2;
-    padding: 32px;
-    border-radius: 20px;
-    gap: 12px; /* Space between the cards */
-}
+    /* Log Table Container */
+    .logs-container {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        max-width: 900px;
+        /* Gives it room to breathe */
+        background-color: #ECECE2;
+        padding: 32px;
+        border-radius: 20px;
+        gap: 12px;
+        /* Space between the cards */
+    }
 
-.logs-container h2 {
-    font-size: 20px;
-    margin-top: 0;
-    margin-bottom: 24px;
-}
+    .logs-container h2 {
+        font-size: 20px;
+        margin-top: 0;
+        margin-bottom: 24px;
+    }
 
-.log-header-column, .log-column {
-    flex-basis: 20%;
-    text-align: left;
-}
+    .log-header-column,
+    .log-column {
+        flex-basis: 20%;
+        text-align: left;
+    }
 
-.log-header-row {
-    display: flex;
-    padding: 0 24px; 
-    margin-bottom: 8px;
-    color: #6b6b5f; 
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    .log-header-row {
+        display: flex;
+        padding: 0 24px;
+        margin-bottom: 8px;
+        color: #6b6b5f;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-.log-row-card {
-    display: flex;
-    align-items: center;
-    background-color: #FFFFFF;
-    padding: 18px 24px;
-    border-radius: 12px;
-    filter: drop-shadow(0px 2px 4px #00000008);
-    transition: transform 0.2s;
-}
+    .log-row-card {
+        display: flex;
+        align-items: center;
+        background-color: #FFFFFF;
+        padding: 18px 24px;
+        border-radius: 12px;
+        filter: drop-shadow(0px 2px 4px #00000008);
+        transition: transform 0.2s;
+    }
 
-.log-row-card:hover {
-    transform: translateY(-2px);
-}   
+    .log-row-card:hover {
+        transform: translateY(-2px);
+    }
 </style>
 {% endblock %}
