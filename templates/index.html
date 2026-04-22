@@ -23,11 +23,11 @@
         <div class="amount-field-container">
             <div class="amount-field">
                 <label for="bfSaved">BF Amount</label>
-                <input type="text" name="bfSaved" required min="10000" placeholder="10000">
+                <input type="number" name="bfSaved" required min="10000" placeholder="10000">
             </div>
             <div class="amount-field">
                 <label for="gfSaved">GF Amount</label>
-                <input type="text" name="gfSaved" required min="10000" placeholder="10000">
+                <input type="number" name="gfSaved" required min="10000" placeholder="10000">
             </div>
         </div>
 
@@ -80,6 +80,31 @@
         <div class="log-column">Rp {{ item.amount_gf_saved }}</div>
         <div class="log-column"><strong>Rp {{ item.amount_bf_saved + item.amount_gf_saved }}</strong></div>
         <div class="log-column">{{ (item.amount_bf_saved + item.amount_gf_saved) - 92000 }}</div>
+        <div class="cta">
+            <a href="">Edit</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- mobile -->
+<div class="logs-container-mobile">
+    <h2>Recent Logs</h2>
+    {% for item in savings %}
+    <div class="log-card">
+        <div class="log-row-mob">
+            <div class="date">{{ item.date_saved.strftime('%b %d, %Y') }}</div>
+            <div class="surplus">{{ (item.amount_bf_saved + item.amount_gf_saved) - 92000}}</div>
+        </div>
+        <div class="log-row-mob">
+            <div class="amount">
+                <div>BF: {{ item.amount_bf_saved | format_currency}}</div>
+                <div> | </div>
+                <div>GF: {{ item.amount_gf_saved | format_currency}}</div>
+            </div>
+            <div class="total">Rp {{ item.amount_bf_saved + item.amount_gf_saved}}</div>
+        </div>
+
     </div>
     {% endfor %}
 </div>
@@ -207,12 +232,10 @@
         flex-direction: column;
         width: 90%;
         max-width: 900px;
-        /* Gives it room to breathe */
         background-color: #ECECE2;
         padding: 32px;
         border-radius: 20px;
         gap: 12px;
-        /* Space between the cards */
     }
 
     .logs-container h2 {
@@ -223,8 +246,13 @@
 
     .log-header-column,
     .log-column {
-        flex-basis: 20%;
+        flex-basis: 16.66%;
         text-align: left;
+    }
+
+    .cta {
+        flex-basis: 50px;
+        text-align: right;
     }
 
     .log-header-row {
@@ -249,6 +277,79 @@
 
     .log-row-card:hover {
         transform: translateY(-2px);
+    }
+
+    .cta a {
+        text-decoration: none;
+        color: #3D6751;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 6px 12px;
+        border: 1px solid #3D6751;
+        border-radius: 6px;
+    }
+
+    .logs-container-mobile {
+        display: none;
+    }
+
+    @media(max-width: 850px) {
+        body {
+            padding: 0 40px;
+        }
+
+
+        .logs-container {
+            display: none;
+        }
+
+        .logs-container-mobile {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            max-width: 900px;
+            gap: 12px;
+        }
+
+        .log-card {
+            background-color: #ECECE2;
+            padding: 32px;
+            border-radius: 20px;
+        }
+
+        .log-row-mob {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .log-row-mob .date {
+            font-size: 20px;
+            font-weight: 600;
+            color: #484843;
+        }
+
+        .log-row-mob .amount {
+            display: flex;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .log-row-mob .total {
+            font-size: 25px;
+            color: #484843;
+            font-weight: 700;
+        }
+
+        .log-row-mob .surplus {
+            background-color: #D1FAE5;
+            color: #005A3E;
+            padding: 5px 5px 5px 5px;
+            border-radius: 5px;
+            text-align: right;
+            font-weight: 600;
+        }
     }
 </style>
 {% endblock %}

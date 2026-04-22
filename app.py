@@ -53,5 +53,14 @@ def home():
 
         return render_template("index.html", savings = all_savings, grand_total=grand_total)
 
+def format_currency(value):
+    if value is None:
+        return "0"
+    if value >= 1000:
+        return f"{value / 1000:.0f}k"
+    return str(value)
+
+app.jinja_env.filters['format_currency'] = format_currency
+
 if __name__ == "__main__":
     app.run(debug=True)
