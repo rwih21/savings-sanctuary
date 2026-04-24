@@ -3,17 +3,23 @@ from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from datetime import datetime
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mnysavetrack'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mnysavetrack'
+app.cofig['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
+
+db_url = os.environ.get('DATABASE_URL', '')
+if db_url.startswith('postgres://'):
+    db_url = db_url.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 
 class MoneySave(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_saved = db.Column(db.DateTime)
     amount_bf_saved = db.Column(db.Integer)
     amount_gf_saved = db.Column(db.Integer)
-    running_total = db.Column(db.Integer)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
 @app.route("/", methods=["POST", "GET"])
@@ -36,8 +42,7 @@ def home():
         new_entry = MoneySave(
             date_saved = saved_date,
             amount_bf_saved = int(bf_value),
-            amount_gf_saved = int(gf_value),
-            running_total = current_total
+            amount_gf_saved = int(gf_value)
         )
 
         db.session.add(new_entry)
@@ -61,6 +66,9 @@ def format_currency(value):
     return str(value)
 
 app.jinja_env.filters['format_currency'] = format_currency
+
+with app.app_context():
+    db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)
